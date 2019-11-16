@@ -31,6 +31,42 @@ def view_all_landings():
     return make_response(jsonify(data_to_return), 200)
 
 
+@app.route('/api/1/landings/<string:l_id>', methods=['GET'])
+def view_specific_landing(l_id):
+    landing = landings.find_one({"_id": ObjectId(l_id)})
+    if landing is not None:
+        landing['_id'] = str(landing['_id'])
+        return make_response(jsonify(landing), 200)
+    else:
+        return make_response(jsonify({"error": "invalid business ID"}), 404)
+
+
+
+@app.route('/api/1/landings/<string:l_id>', methods=['PUT'])
+def update_landing(l_id):
+    if 'name' in request.form and 'nametype' in request.form and 'fall' in request.form and 'mass (g)' in request.form\
+            and 'reclat' in request.form and 'reclong' in request.form and 'year' in request.form and\
+            'GeoLocation' in request.form:
+        result = landings.update_one({'_id': ObjectId(l_id)},
+                                     {'$set': {'name': request.form['name'],
+                                               'nametype': request.form['nametype'],
+                                               'fall': request.form['fall'],
+                                               'mass (g)': request.form['mass (g)'],
+                                               'reclat': request.form['reclat'],
+                                               'reclong': request.form['reclong'],
+                                               'year': request.form['year'],
+                                               'GeoLocation': request.form['GeoLocation']
+                                               }
+                                      })
+        if result.matched_count == 1:
+            edited_landing_link = "http://localhost:5000/api/v1.0/landings/" + l_id
+            return make_response(jsonify({'url': edited_landing_link}), 200)
+        else:
+            return make_response(jsonify({'error': 'Invalid business ID'}), 404)
+    else:
+        return make_response(jsonify({'error': 'Missing form data'}), 404)
+
+
 if __name__ == "__main__":
     app.run(debug=True)
 
