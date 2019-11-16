@@ -67,6 +67,28 @@ def update_landing(l_id):
         return make_response(jsonify({'error': 'Missing form data'}), 404)
 
 
+@app.route('/api/1/landings', methods=['POST'])
+def add_landing():
+    if 'name' in request.form and 'nametype' in request.form and 'fall' in request.form and 'mass (g)' in request.form\
+            and 'reclat' in request.form and 'reclong' in request.form and 'year' in request.form and\
+            'GeoLocation' in request.form:
+        new_landing = {
+            'name': request.form['name'],
+            'nametype': request.form['nametype'],
+            'fall': request.form['fall'],
+            'mass (g)': request.form['mass (g)'],
+            'reclat': request.form['reclat'],
+            'reclong': request.form['reclong'],
+            'year': request.form['year'],
+            'GeoLocation': request.form['GeoLocation']
+            }
+        new_landing_id = landings.insert_one(new_landing)
+        new_landing_url = 'http://localhost:5000/api/1/landings/' + str(new_landing_id.inserted_id)
+        return make_response(jsonify({'url': new_landing_url}), 201)
+    else:
+        return make_response(jsonify({'error': 'Missing form data'}))
+
+
 if __name__ == "__main__":
     app.run(debug=True)
 
