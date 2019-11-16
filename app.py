@@ -89,6 +89,15 @@ def add_landing():
         return make_response(jsonify({'error': 'Missing form data'}))
 
 
+@app.route('/api/1/landings/<string:l_id>', methods=['DELETE'])
+def delete_landing(l_id):
+    result = landings.delete_one({'_id': ObjectId(l_id)})
+    if result.deleted_count == 1:
+        return make_response(jsonify({}), 204)
+    else:
+        return make_response({'error': 'Invalid Landing ID'})
+
+
 if __name__ == "__main__":
     app.run(debug=True)
 
