@@ -1,15 +1,15 @@
-<div class="container">
-    <h2>Meteorite Information</h2>
+<div class="container" style="margin-top: 100px;">
+    <h3>Meteorite Information</h3>
     <div class="row">
         <div class="col-sm-12">
-            <div class="card"> 
+            <div class="card border-info"> 
                 <div class="card-header bg-dark text-white">
                     {{ landing.name }}
                 </div>
                 <div class="card-body">
                     <div class="row">
                         <div class="col-sm-6">
-                            <h3>Characteristics</h3>
+                            <h5>Characteristics</h5>
                             <hr>
                             Condition: {{ landing.nametype }} <br>
                             Classification: {{ landing.recclass }} <br>
@@ -19,7 +19,7 @@
                         </div>
                         <br>
                         <div class="col-sm-6">
-                            <h3>Location</h3>
+                            <h5>Location</h5>
                             <hr>
                             Laditude: {{ landing.reclat }} <br>
                             Longitude: {{ landing.reclong }} <br>
@@ -38,7 +38,7 @@
     <h3>Reviews</h3>
     <div class="row">
         <div class="col-sm-12">
-            <div class="card bg-light mb-3" *ngFor = "let review of webService.reviews_list| async">
+            <div class="card bg-light mb-2 border-info" *ngFor = "let review of webService.reviews_list| async">
                 <div class="card-header bg-secondary text-white ">
                     Review by {{ review.user }} <br>
                     Posted on: {{ review.date | date }}
@@ -50,6 +50,50 @@
                     Rating: {{ review.rating }}
                 </div>
             </div>
+        </div>
+    </div>
+</div>
+
+<div class="container" ng-controller="autoCtrl" *ngIf="authService.loggedIn">
+    <div class="row">
+        <div class="col-sm-12">
+            <h3>Please review this meteorite landing site</h3>
+            <form [formGroup]="reviewForm" (ngSubmit)="onSubmit()">
+                <div class="form-group">
+                    <label for="user">Username</label>
+                    <input type="text" id="user" name="user" class="form-control" formControlName="user">
+                </div>
+                <div class="form-group">
+                    <label for="comment">
+                        Please leave your review below
+                    </label>
+                    <textarea id="comment" rows="3" name="comment" class="form-control" formControlName="comment" [ngClass]="{'error': isInvalid('user')}">
+
+                    </textarea>
+                </div>
+                <div class="form-group">
+                    <label for="rating">
+                        Please provide a rating (1-5)
+                    </label>
+                    <select id="rating" name="rating"class="form-control" formControlName="rating" [ngClass]="{'error': isInvalid('comment')}">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                </div>
+                <span *ngIf="isIncomplete()">You must complete all fields</span>
+                <button *ngIf="!isIncomplete()" type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="!authService.loggedIn" class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <h3>Please login to review this business</h3>
         </div>
     </div>
 </div>

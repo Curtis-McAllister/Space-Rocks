@@ -3,8 +3,11 @@ import { NgModule } from '@angular/core';
 import { WebService } from './web.service';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
+import { ReactiveFormsModule } from '@angular/forms';
+import { AuthService } from '../auth.service';
 
 import { AppComponent } from './app.component';
+import { NavComponent } from './nav.component';
 import { HomeComponent } from './home.component';
 import { LandingsComponent } from './landings.component';
 import { LandingComponent } from './landing.component';
@@ -27,6 +30,7 @@ var routes = [
 @NgModule({
   declarations: [
     AppComponent,
+    NavComponent,
     HomeComponent,
     LandingsComponent,
     LandingComponent
@@ -34,9 +38,10 @@ var routes = [
   imports: [
     BrowserModule,
     HttpClientModule,
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes),
+    ReactiveFormsModule
   ],
-  providers: [WebService],
+  providers: [WebService, AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
