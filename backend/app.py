@@ -2,21 +2,23 @@ import datetime
 import jwt
 import bcrypt
 from flask import Flask, request, jsonify, make_response
+from flask_cors import CORS
 from pymongo import MongoClient
 from bson import ObjectId
 from functools import wraps
 
 app = Flask(__name__)
+CORS(app)
 app.secret_key = 'kFbAYIQgh2rA'
 
 client = MongoClient('mongodb://127.0.0.1:27017')
-db = client.Space_Rocks
+db = client.SpaceRocks
 landings = db.landings
 
 
 @app.route('/api/1/landings', methods=['GET'])
 def view_all_landings():
-    page_num, page_size = 1, 10
+    page_num, page_size = 1, 25
     if request.args.get('pn'):
         page_num = int(request.args.get('pn'))
     if request.args.get('ps'):
@@ -50,6 +52,7 @@ def update_landing(l_id):
         result = landings.update_one({'_id': ObjectId(l_id)},
                                      {'$set': {'name': request.form['name'],
                                                'nametype': request.form['nametype'],
+                                               'reclass': request.form['reclass'],
                                                'fall': request.form['fall'],
                                                'mass (g)': request.form['mass (g)'],
                                                'reclat': request.form['reclat'],
@@ -75,6 +78,7 @@ def add_landing():
         new_landing = {
             'name': request.form['name'],
             'nametype': request.form['nametype'],
+            'reclass': request.form['reclass'],
             'fall': request.form['fall'],
             'mass (g)': request.form['mass (g)'],
             'reclat': request.form['reclat'],
