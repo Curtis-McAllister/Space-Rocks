@@ -1,33 +1,37 @@
-<h1>Landings Directory</h1>
+<h1 class="text-center">Earth Meteorite Landings</h1>
 
 <div class="container">
-    <div class="row">
-        <div class="col-sm-12">
-            <div *ngFor="let landing of webService.landings_list | async">
-            <div class="card mb-3" [routerLink]="['/landings', landing._id]" style="cursor: pointer">
-                    <div class="card-header bg-secondary text-white">
+    <div class="row card-group">
+            <div class="col-4 mb-1" *ngFor="let landing of webService.landings_list | async"> 
+            <div class="card border-info" [routerLink]="['/landings', landing._id]" style="cursor: pointer">
+                    <div class="card-header bg-dark text-white">
                         {{ landing.name }}
                     </div>
-                    <div class="card-body">
+                    <div class="card-body bg-light">
+                        Condition: {{ landing.nametype }} <br>
                         Classification: {{ landing.recclass }} <br>
-                        Validity: {{ landing.nametype }} <br>
-                        Laditude: {{ landing.reclat }} <br>
-                        Longitude: {{ landing.reclong }} <br>
+                        Mass (g): {{ landing.mass }} <br>
+                        Fall date: {{ landing.year }} <br>
                     </div>
-                    <div class="card-footer bg-secondary text-white">
-                        Fell on: {{ landing.year }}
+                    <div class="card-footer bg-dark text-white">
+                        Number of Reviews: {{ landing.reviews.length }}
                     </div>
                 </div>
-            </div>
         </div>
     </div>
 
     <div class="row">
-        <div class="col-sm-6">
+        <div class="col-sm-3">
+            <button class="btn btn-primary"(click)="firstPage()">First Page</button>
+        </div>
+        <div class="col-sm-3">
             <button class="btn btn-primary"(click)="previousPage()">Previous</button>
         </div>
-        <div class="col-sm-6 text-right">
+        <div class="col-sm-3 text-right">
             <button class="btn btn-primary"(click)="nextPage()">Next</button>
+        </div>
+        <div class="col-sm-3">
+            <button class="btn btn-primary"(click)="lastPage()">Last Page</button>
         </div>
     </div>
 

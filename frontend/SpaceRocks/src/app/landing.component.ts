@@ -12,11 +12,17 @@ export class LandingComponent{
 
     constructor(private webService: WebService,
                 private route: ActivatedRoute) {}
-/*
-    async ngOnInit(){
-        var response = await this.webService.getLanding(this.route.snapshot.params.id);
-        this.landing = response;
-    }
 
-    landing; */
+    ngOnInit(){
+        this.webService.getLanding(this.route.snapshot.params.id);
+        this.webService.landing
+        .subscribe(response => {
+            this.landing = response;
+        })
+        this.webService.getReviews(this.route.snapshot.params.id);
+        /*this.webService.reviews_list
+        .subscribe(reviews => {
+            this.reviews_list = reviews;
+        })*/
+    }
  } 
