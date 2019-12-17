@@ -1,18 +1,53 @@
 <div class="container">
+    <h2>Meteorite Information</h2>
     <div class="row">
         <div class="col-sm-12">
             <div class="card"> 
-                <div class="card-header bg-secondary text-white">
+                <div class="card-header bg-dark text-white">
                     {{ landing.name }}
                 </div>
                 <div class="card-body">
-                    Classification: {{ landing.recclass }} <br>
-                    Validity: {{ landing.nametype }} <br>
-                    Laditude: {{ landing.reclat }} <br>
-                    Longitude: {{ landing.reclong }} <br>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <h3>Characteristics</h3>
+                            <hr>
+                            Condition: {{ landing.nametype }} <br>
+                            Classification: {{ landing.recclass }} <br>
+                            Mass (g): {{ landing.mass }} <br>
+                            Fall date: {{ landing.year }} <br>
+                            Fall observed: {{ landing.fall }}
+                        </div>
+                        <br>
+                        <div class="col-sm-6">
+                            <h3>Location</h3>
+                            <hr>
+                            Laditude: {{ landing.reclat }} <br>
+                            Longitude: {{ landing.reclong }} <br>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer bg-dark text-white">
+                    Number of Reviews: {{ landing.reviews.length }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container mt-3">
+    <h3>Reviews</h3>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card bg-light mb-3" *ngFor = "let review of webService.reviews_list| async">
+                <div class="card-header bg-secondary text-white ">
+                    Review by {{ review.user }} <br>
+                    Posted on: {{ review.date | date }}
+                </div>
+                <div class="card-body">
+                    {{ review.comment }}
                 </div>
                 <div class="card-footer bg-secondary text-white">
-                    Fell on: {{ landing.year }}
+                    Rating: {{ review.rating }}
                 </div>
             </div>
         </div>
