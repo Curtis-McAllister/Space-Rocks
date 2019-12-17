@@ -21,6 +21,8 @@ export class WebService {
     private reviewsSubject = new Subject();
     reviews_list = this.reviewsSubject.asObservable();
 
+    landingID;
+
     constructor(private http: HttpClient) {}
     
     getLandings(page) {
@@ -47,6 +49,7 @@ export class WebService {
             .subscribe(response => {
                 this.landing_private = response;
                 this.landingSubject.next(this.landing_private);
+                this.landingID = id;
             });
     }
 
@@ -57,5 +60,25 @@ export class WebService {
                 this.reviews_list_private = response;
                 this.reviewsSubject.next(this.reviews_list_private);
             })
+    }
+
+    postReview(review) {
+        let postData = new FormData();
+        postData.append("user", review.user);
+        postData.append("comment", review.comment);
+        postData.append("rating", review.rating);
+
+        let today = new Date();
+        let todays_Date = today.getFullYear() + "-" +
+        today.getMonth() + "-" +
+        today.getDate();
+        postData.append("date", todays_Date);
+
+        this.http.post(
+            'http://localhost:5000/api/1/landings/' + 
+            this.landingID + '/reviews', postData)
+            .subscribe(response => {
+                this.getReviews(this.landingID);
+            });
     }
 }
