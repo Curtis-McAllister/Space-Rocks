@@ -1,0 +1,34 @@
+<h1>Landings Directory</h1>
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <div *ngFor="let landing of webService.landings_list | async">
+            <div class="card mb-3" [routerLink]="['/landings', landing._id]" style="cursor: pointer">
+                    <div class="card-header bg-secondary text-white">
+                        {{ landing.name }}
+                    </div>
+                    <div class="card-body">
+                        Classification: {{ landing.recclass }} <br>
+                        Validity: {{ landing.nametype }} <br>
+                        Laditude: {{ landing.reclat }} <br>
+                        Longitude: {{ landing.reclong }} <br>
+                    </div>
+                    <div class="card-footer bg-secondary text-white">
+                        Fell on: {{ landing.year }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-6">
+            <button class="btn btn-primary"(click)="previousPage()">Previous</button>
+        </div>
+        <div class="col-sm-6 text-right">
+            <button class="btn btn-primary"(click)="nextPage()">Next</button>
+        </div>
+    </div>
+
+</div>
