@@ -1,0 +1,34 @@
+
+
+
+landings = {
+	   _id,
+	   name,
+	   nametype,
+ 	   etc...
+	   }
+
+
+
+USER = {
+	_id,
+	forename,
+	surname,
+	email,
+	town,
+	country,
+	admin = false
+	visited landing sites = [{
+				_id,
+				landing_id,
+				date_visited,
+				comment			
+				}
+	}
+
+{ "_id" : ObjectId("5dd73d1c7a56208d5887ac7f"), "name" : "aachen", "date" : "12/12/12" }
+
+db.user.aggregate([{$lookup: {from: "landing", localField: "landing_id", foreignField: "_id", as: "visited_landings"}}])
+
+
+
