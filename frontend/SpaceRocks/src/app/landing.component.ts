@@ -13,6 +13,8 @@ import { AuthService } from '../auth.service';
 export class LandingComponent{
 
     reviewForm;
+    landing;
+    currentUser;
 
     constructor(private webService: WebService,
                 private route: ActivatedRoute,
@@ -20,8 +22,12 @@ export class LandingComponent{
                 private authService: AuthService) {}
 
     ngOnInit(){
+        this.authService.userProfile$
+        .subscribe(response => {
+            this.currentUser = response.nickname;
+            console.log(this.currentUser);
+        })
         this.reviewForm = this.formBuilder.group({
-            user: ['', Validators.required],
             comment: ['', Validators.required],
             rating: 5
         });
@@ -36,6 +42,7 @@ export class LandingComponent{
     }
 
     onSubmit(){
+        this.reviewForm.value["user"] = this.currentUser;
         this.webService.postReview(this.reviewForm.value);
         this.reviewForm.reset();
     }
@@ -46,12 +53,10 @@ export class LandingComponent{
     }
 
     isUnTouched() {
-        return this.reviewForm.controls.user.pristine ||
         this.reviewForm.controls.comment.pristine;
     }
     
     isIncomplete() {
-        return this.isInvalid('user') ||
         this.isInvalid('comment')||
         this.isUnTouched();
     }

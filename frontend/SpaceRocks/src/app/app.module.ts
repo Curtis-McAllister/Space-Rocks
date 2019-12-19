@@ -11,6 +11,7 @@ import { NavComponent } from './nav.component';
 import { HomeComponent } from './home.component';
 import { LandingsComponent } from './landings.component';
 import { LandingComponent } from './landing.component';
+import { ProfileComponent } from './profile.component'
 
 var routes = [
   {
@@ -24,6 +25,10 @@ var routes = [
   {
     path: 'landings/:id',
     component: LandingComponent
+  },
+  {
+    path: 'profile',
+    component: ProfileComponent
   }
 ];
 
@@ -33,7 +38,8 @@ var routes = [
     NavComponent,
     HomeComponent,
     LandingsComponent,
-    LandingComponent
+    LandingComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
