@@ -10,7 +10,7 @@
                         Condition: {{ landing.nametype }} <br>
                         Classification: {{ landing.recclass }} <br>
                         Mass (g): {{ landing.mass }} <br>
-                        Fall date: {{ landing.year }} <br>
+                        Year of Fall: {{ landing.year | date:'yyyy' }} <br>
                     </div>
                     <div class="card-footer bg-secondary text-white">
                         Number of Reviews: {{ landing.reviews.length }}

@@ -14,8 +14,8 @@
                             Condition: {{ landing.nametype }} <br>
                             Classification: {{ landing.recclass }} <br>
                             Mass (g): {{ landing.mass }} <br>
-                            Fall date: {{ landing.year }} <br>
-                            Fall observed: {{ landing.fall }}
+                            Year of Fall: {{ landing.year | date:'yyyy' }} <br>
+                            Observed as it fell / found after fall: {{ landing.fall }}
                         </div>
                         <br>
                         <div class="col-sm-6">
@@ -60,14 +60,10 @@
             <h3>Please review this meteorite landing site</h3>
             <form [formGroup]="reviewForm" (ngSubmit)="onSubmit()">
                 <div class="form-group">
-                    <label for="user">Username</label>
-                    <input type="text" id="user" name="user" class="form-control" formControlName="user">
-                </div>
-                <div class="form-group">
                     <label for="comment">
                         Please leave your review below
                     </label>
-                    <textarea id="comment" rows="3" name="comment" class="form-control" formControlName="comment" [ngClass]="{'error': isInvalid('user')}">
+                    <textarea id="comment" rows="3" name="comment" class="form-control" formControlName="comment" [ngClass]="{'error': isInvalid('comment')}">
 
                     </textarea>
                 </div>

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { WebService } from './web.service';
+import { AuthService } from '../auth.service'
 
 @Component({
     selector: 'landings',
@@ -9,7 +10,8 @@ import { WebService } from './web.service';
 
 export class LandingsComponent{
 
-    constructor(private webService: WebService) {}
+    constructor(private webService: WebService,
+                private authService: AuthService) {}
 
     ngOnInit(){
         if (sessionStorage.page){

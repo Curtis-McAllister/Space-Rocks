@@ -16,7 +16,7 @@ CORS(app)
 app.secret_key = 'kFbAYIQgh2rA'
 
 client = MongoClient('mongodb://127.0.0.1:27017')
-db = client.SpaceRocks
+db = client.Space_Rocks
 landings = db.landings
 
 PAGE_SIZE = 18
@@ -46,8 +46,8 @@ def view_all_landings():
     for landing in landings.find().skip(page_start).limit(page_size):
         landing['_id'] = str(landing['_id'])
         data_to_return.append(landing)
-    json_landings = json.loads(json_util.dumps(data_to_return))
-    return make_response(jsonify(json_landings), 200)
+    #json_landings = json.loads(json_util.dumps(data_to_return))
+    return make_response(jsonify(data_to_return), 200)
 
 
 @app.route('/api/1/landings/<string:l_id>', methods=['GET'])
