@@ -1,10 +1,11 @@
-<div class="container" style="margin-top: 100px;">
+<div class="container" style="margin-top: 70px;">
     <h2 class="text-center">Meteorite Landings</h2>
     <div class="row card-group">
             <div class="col-4 mb-1" *ngFor="let landing of webService.landings_list | async"> 
             <div class="card border-info" [routerLink]="['/landings', landing._id]" style="cursor: pointer">
                     <div class="card-header bg-dark text-white">
                         {{ landing.name }}
+                        {{ landing._id }}
                     </div>
                     <div class="card-body bg-light">
                         Condition: {{ landing.nametype }} <br>
@@ -19,17 +20,62 @@
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-sm-3">
-            <button class="btn btn-primary"(click)="firstPage()">First Page</button>
-        </div>
-        <div class="col-sm-3">
+    <div class="row mb-1">
+        
+        <div class="col-sm-4">
             <button class="btn btn-primary"(click)="previousPage()">Previous</button>
         </div>
-        <div class="col-sm-3 text-right">
+
+        <div class="col-sm-6" *ngIf="page == 1">
+            <button class="btn btn-info"(click)="navigateTo(page)">{{ page }}</button>
+            <button class="btn btn-secondary"(click)="navigateTo(page + 1)">{{ page + 1 }}</button>
+            <button class="btn btn-secondary"(click)="navigateTo(page + 2)">{{ page + 2 }}</button>
+            <button class="btn btn-secondary"(click)="navigateTo(page + 3)">{{ page + 3 }}</button>
+            <button class="btn btn-secondary"(click)="navigateTo(page + 4)">{{ page + 4 }}</button>
+        </div>
+
+        <div class="col-sm-6" *ngIf="page == 2">
+            <button class="btn btn-secondary"(click)="navigateTo(page)">{{ page - 1 }}</button>
+            <button class="btn btn-info"(click)="navigateTo(page)">{{ page }}</button>
+            <button class="btn btn-secondary"(click)="navigateTo(page + 1)">{{ page + 1 }}</button>
+            <button class="btn btn-secondary"(click)="navigateTo(page + 2)">{{ page + 2 }}</button>
+            <button class="btn btn-secondary"(click)="navigateTo(page + 3)">{{ page + 3 }}</button>
+        </div>
+
+        <div class="col-sm-6" *ngIf="page > 2 && page < last_page -1 ">
+            <button class="btn btn-secondary"(click)="navigateTo(page -2)">{{ page - 2 }}</button>
+            <button class="btn btn-secondary"(click)="navigateTo(page - 1)">{{ page -1 }}</button>
+            <button class="btn btn-info"(click)="navigateTo(page)">{{ page }}</button>
+            <button class="btn btn-secondary"(click)="navigateTo(page + 1)">{{ page + 1 }}</button>
+            <button class="btn btn-secondary"(click)="navigateTo(page + 2)">{{ page + 2 }}</button>
+        </div>
+
+        <div class="col-sm-6" *ngIf="page == last_page - 1 ">
+            <button class="btn btn-secondary"(click)="navigateTo(page - 3)">{{ page - 3 }}</button>
+            <button class="btn btn-secondary"(click)="navigateTo(page - 2)">{{ page - 2 }}</button>
+            <button class="btn btn-secondary"(click)="navigateTo(page - 1)">{{ page - 1}}</button>
+            <button class="btn btn-info"(click)="navigateTo(page)">{{ page}}</button>
+            <button class="btn btn-secondary" (click)="navigateTo(page + 1)">{{ page + 1}}</button>
+        </div>
+
+        <div class="col-sm-6" *ngIf="page == last_page ">
+            <button class="btn btn-secondary"(click)="navigateTo(page - 4)">{{ page - 4 }}</button>
+            <button class="btn btn-secondary"(click)="navigateTo(page - 3)">{{ page - 3 }}</button>
+            <button class="btn btn-secondary"(click)="navigateTo(page - 2)">{{ page - 2}}</button>
+            <button class="btn btn-secondary"(click)="navigateTo(page - 1)">{{ page - 1 }}</button>
+            <button class="btn btn-info" (click)="navigateTo(page)">{{ page }}</button>
+        </div>
+        
+        <div class="col-sm-2 text-right">
             <button class="btn btn-primary"(click)="nextPage()">Next</button>
         </div>
-        <div class="col-sm-3">
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <button class="btn btn-primary"(click)="firstPage()">First Page</button>
+        </div>
+        <div class="col text-right">
             <button class="btn btn-primary"(click)="lastPage()">Last Page</button>
         </div>
     </div>

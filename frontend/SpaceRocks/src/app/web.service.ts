@@ -1,6 +1,7 @@
 import { HttpClient} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
+import { resolve } from 'url';
 
 @Injectable()
 export class WebService {
@@ -29,9 +30,13 @@ export class WebService {
     private locationsSubject = new Subject();
     locations = this.locationsSubject.asObservable();
 
+    private review_private;
+    private reviewSubject = new Subject();
+    review = this.reviewSubject.asObservable();
 
 
     landingID;
+    reviewID;
 
     constructor(private http: HttpClient) {}
     
@@ -90,6 +95,17 @@ export class WebService {
             })
     }
 
+    getReview(l_id, id){
+        return this.http.get(
+        'http://localhost:5000/api/1/reviews/' + l_id + '/' + id)
+        .subscribe(response => {
+            this.review_private = response;
+            this.reviewSubject.next(this.review_private);
+            this.landingID = l_id;
+            this.reviewID = id;
+        })
+    }
+
     postReview(review) {
         let postData = new FormData();
         postData.append("user", review.user);
@@ -108,5 +124,34 @@ export class WebService {
             .subscribe(response => {
                 this.getReviews(this.landingID);
             });
+    }
+
+    putReview(review){
+        let putData = new FormData();
+        putData.append("user", review.user);
+        putData.append("comment", review.comment);
+        putData.append("rating", review.rating);
+
+        let today = new Date();
+        let todays_Date = today.getFullYear() + "-" +
+        today.getMonth() + "-" + 
+        today.getDate();
+        putData.append("date", todays_Date);
+
+        this.http.put('http://localhost:5000/api/1/reviews/' +
+        this.reviewID,  putData)
+        .subscribe(response => {
+            console.log("response is: ", response)
+        })
+    }
+
+    deleteReview(){
+        console.log(this.reviewID);
+        this.http.delete('http://localhost:5000/api/1/landings/' +
+        this.landingID + '/reviews/' +
+        this.reviewID)
+        .subscribe(response => {
+            console.log("Review Deleted: ")
+        })
     }
 }

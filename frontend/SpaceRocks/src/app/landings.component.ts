@@ -41,6 +41,14 @@ export class LandingsComponent{
         }
     }
 
+    navigateTo(selected_page){
+        if(selected_page > 1 && selected_page < this.last_page){
+            this.page = selected_page;
+            sessionStorage.page = Number(this.page);
+            this.webService.getLandings(this.page);
+        }
+    }
+
     firstPage(){
         this.page = 1;
         sessionStorage.page = Number(this.page);

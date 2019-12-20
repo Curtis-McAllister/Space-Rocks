@@ -1,9 +1,12 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { WebService } from './web.service';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
+import { AgmCoreModule } from '@agm/core';
+
+
+import { WebService } from './web.service';
 import { AuthService } from '../auth.service';
 
 import { AppComponent } from './app.component';
@@ -12,8 +15,8 @@ import { HomeComponent } from './home.component';
 import { LandingsComponent } from './landings.component';
 import { LandingComponent } from './landing.component';
 import { ProfileComponent } from './profile.component'
-import { AgmCoreModule } from '@agm/core';
 import { MapComponent } from './map.component';
+import { ReviewComponent } from './review.component';
 
 var routes = [
   {
@@ -35,6 +38,10 @@ var routes = [
   {
     path: 'map',
     component: MapComponent
+  },
+  {
+    path: 'reviews/:l_id/:_id',
+    component: ReviewComponent
   }
 ];
 
@@ -46,7 +53,8 @@ var routes = [
     LandingsComponent,
     LandingComponent,
     ProfileComponent,
-    MapComponent
+    MapComponent,
+    ReviewComponent
   ],
   imports: [
     BrowserModule,

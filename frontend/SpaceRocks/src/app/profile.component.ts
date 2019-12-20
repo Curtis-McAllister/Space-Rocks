@@ -7,6 +7,7 @@ import { AuthService } from '../auth.service';
   templateUrl: './profile.component.html',
   styleUrls: []
 })
+
 export class ProfileComponent implements OnInit {
 
   currentUser;
