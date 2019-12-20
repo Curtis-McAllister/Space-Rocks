@@ -3,6 +3,7 @@ import { WebService } from './web.service';
 import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '../auth.service';
+import {AgmCoreModule} from '@agm/core';
 
 @Component({
     selector: 'landing',
@@ -19,13 +20,13 @@ export class LandingComponent{
     constructor(private webService: WebService,
                 private route: ActivatedRoute,
                 private formBuilder: FormBuilder,
-                private authService: AuthService) {}
+                private authService: AuthService,
+                private agm: AgmCoreModule) {}
 
     ngOnInit(){
         this.authService.userProfile$
         .subscribe(response => {
             this.currentUser = response.nickname;
-            console.log(this.currentUser);
         })
         this.reviewForm = this.formBuilder.group({
             comment: ['', Validators.required],
@@ -42,6 +43,7 @@ export class LandingComponent{
     }
 
     onSubmit(){
+        //append username to the form data
         this.reviewForm.value["user"] = this.currentUser;
         this.webService.postReview(this.reviewForm.value);
         this.reviewForm.reset();

@@ -46,8 +46,18 @@ def view_all_landings():
     for landing in landings.find().skip(page_start).limit(page_size):
         landing['_id'] = str(landing['_id'])
         data_to_return.append(landing)
-    #json_landings = json.loads(json_util.dumps(data_to_return))
-    return make_response(jsonify(data_to_return), 200)
+    json_landings = json.loads(json_util.dumps(data_to_return))
+    return make_response(jsonify(json_landings), 200)
+
+
+@app.route('/api/1/landings/locations', methods=['GET'])
+def get_landing_locations():
+    data_to_return = []
+    for landing in landings.find():
+        landing['_id'] = str(landing['_id'])
+        data_to_return.append(landing)
+    json_locations = json.loads(json_util.dumps(data_to_return))
+    return make_response((jsonify(json_locations)), 200)
 
 
 @app.route('/api/1/landings/<string:l_id>', methods=['GET'])
@@ -96,6 +106,19 @@ def update_landing(l_id):
             return make_response(jsonify({'error': 'Invalid Landing ID'}), 404)
     else:
         return make_response(jsonify({'error': 'Missing form data'}), 404)
+
+
+@app.route('/api/1/landings/reviews/<string:user>')
+def view_user_reviews(user):
+    data_to_return = []
+    for landing in landings.find({"reviews.user": user}):
+        for review in landing["reviews"]:
+            if review["user"] == user:
+                data = review
+                data["landing_name"] = landing["name"]
+                data_to_return.append(data)
+    json_reviews = json.loads(json_util.dumps(data_to_return))
+    return make_response(jsonify(json_reviews), 200)
 
 
 @app.route('/api/1/landings', methods=['POST'])

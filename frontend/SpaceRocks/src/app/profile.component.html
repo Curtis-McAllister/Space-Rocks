@@ -1,17 +1,40 @@
 <div class="container" style="margin-top: 100px;">
         <div *ngIf="authService.userProfile$ | async as profile">
             <div class="card">
+                <code>
+                    {{ profile | json }}
+                </code>
                 <div class="card-header text-white bg-dark">
                     User Details
                 </div>
                 <div class="card-body">
+                    Role: {{ profile.role }}
                     Username: {{ profile.nickname }} <br>
                     Email: {{ profile.email }} <br>
                     Last Updated: {{ profile.updated_at | date }}
                 </div>
                 <div class="card-footer bg-dark text-white">
-                    Reviews made: {{ authService.userProfile$ }}
+                    Reviews made: {{ webService.user_reviews.length | async }}
                 </div>
             </div>
         </div>
 </div>  
+
+<div class="container mt-3">
+    <h3>Your reviews</h3>
+    <div class="row" *ngFor="let review of webService.user_reviews | async">
+        <div class="card col-12 mb-2">
+            <div class="card-header bg-secondary text-white">
+                Location: {{ review.landing_name }} <br>
+                Date of Review: {{ review.date }}
+            </div>
+            <div class="card-body">
+                {{ review.comment }}
+            </div>
+            <div class="card-footer bg-secondary text-white">
+                Rating: {{ review.rating }}
+            </div>
+        </div>
+
+    </div>
+</div>

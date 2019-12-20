@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { WebService } from './web.service';
 import { AuthService } from '../auth.service';
 
 @Component({
@@ -8,18 +9,17 @@ import { AuthService } from '../auth.service';
 })
 export class ProfileComponent implements OnInit {
 
-  username;
+  currentUser;
 
-  constructor(public authService: AuthService) { }
+  constructor(public webService: WebService,
+              public authService: AuthService) { }
 
   ngOnInit() {
     this.authService.userProfile$
     .subscribe(response => {
-      this.username = response;
-      if (this.username){
-      console.log(this.username.nickname);
-      }
+      this.currentUser = response.nickname;
     })
+    this.webService.getUserReviews(this.currentUser);
   }
 
 }
