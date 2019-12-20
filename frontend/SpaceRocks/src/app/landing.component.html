@@ -27,14 +27,20 @@
                     </div>
                 </div>
                 <div class="card-footer bg-dark text-white">
-                    Number of Reviews: {{ landing.reviews.length }}
+                    <h5>Global Location</h5>
                 </div>
+            </div>
+            <div>
+                <agm-map style="height: 400px;" [latitude]="landing.reclat" [longitude]="landing.reclong" [zoom]="6">
+                    <agm-marker [latitude]='landing.reclat' [longitude]='landing.reclong'>
+                    </agm-marker>
+                </agm-map>
             </div>
         </div>
     </div>
 </div>
 
-<div class="container mt-3">
+<div class="container">
     <h3>Reviews</h3>
     <div class="row">
         <div class="col-sm-12">
@@ -64,7 +70,6 @@
                         Please leave your review below
                     </label>
                     <textarea id="comment" rows="3" name="comment" class="form-control" formControlName="comment" [ngClass]="{'error': isInvalid('comment')}">
-
                     </textarea>
                 </div>
                 <div class="form-group">

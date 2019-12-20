@@ -108,14 +108,38 @@ def update_landing(l_id):
         return make_response(jsonify({'error': 'Missing form data'}), 404)
 
 
+@app.route("/api/1/reviews/<string:l_id>/<string:r_id>", methods=["GET"])
+def get_review(l_id, r_id):
+    landing = landings.find_one({"_id": ObjectId(l_id)})
+    review = landings. find_one({"reviews._id": ObjectId(r_id)}, {"_id": 0, "reviews.$": 1})
+    if review is None:
+        return make_response(jsonify({"error": "Invalid business ID or review ID"}), 404)
+    landing['reviews'][0]['_id'] = str(landing['reviews'][0]['_id'])
+    data_to_return = dict()
+    data_to_return["_id"] = review["reviews"][0]["_id"]
+    data_to_return["user"] = review["reviews"][0]["user"]
+    data_to_return["comment"] = review["reviews"][0]["comment"]
+    data_to_return["rating"] = review["reviews"][0]["rating"]
+    data_to_return["date"] = review["reviews"][0]["date"]
+    data_to_return["l_id"] = str(landing["_id"])
+
+    json_data = json.loads(json_util.dumps(data_to_return))
+    return make_response(jsonify(json_data), 200)
+
+
 @app.route('/api/1/landings/reviews/<string:user>')
 def view_user_reviews(user):
     data_to_return = []
     for landing in landings.find({"reviews.user": user}):
         for review in landing["reviews"]:
             if review["user"] == user:
-                data = review
+                data = dict()
+                data["id"] = str(review["_id"])
+                data["date"] = review["date"]
+                data["comment"] = review["comment"]
+                data["rating"] = review["rating"]
                 data["landing_name"] = landing["name"]
+                data["landing_id"] = str(landing["_id"])
                 data_to_return.append(data)
     json_reviews = json.loads(json_util.dumps(data_to_return))
     return make_response(jsonify(json_reviews), 200)
@@ -158,13 +182,27 @@ def add_landing_review(l_id):
     return make_response(jsonify({"url": new_review_link}), 201)
 
 
-@app.route('/api/1/landings/<string:l_id>', methods=['DELETE'])
-def delete_landing(l_id):
-    result = landings.delete_one({'_id': ObjectId(l_id)})
-    if result.deleted_count == 1:
-        return make_response(jsonify({}), 204)
-    else:
-        return make_response({'error': 'Invalid Landing ID'})
+@app.route('/api/1/reviews/<string:r_id>', methods=['PUT'])
+def edit_review(r_id):
+    edited_review = {
+        "reviews.$.comment": request.form["comment"],
+        "reviews.$.rating": request.form['rating'],
+        "reviews.$.date": str(datetime.date.today())
+    }
+    landings.update_one(
+        {"reviews._id": ObjectId(r_id)},
+        {"$set": edited_review})
+    edit_review_url = "http://localhost:5000/api/v1/reviews/" + r_id
+    return make_response(jsonify({"url": edit_review_url}), 200)
+
+
+@app.route('/api/1/landings/<string:l_id>/reviews/<string:r_id>', methods=['DELETE'])
+def delete_review(l_id, r_id):
+    landings.update_one(
+        {"_id": ObjectId(l_id)},
+        {"$pull": {"reviews": {"_id": ObjectId(r_id)}}})
+    edit_review_url = "http://localhost:5000/api/v1/reviews/" + r_id
+    return make_response(jsonify({"url": edit_review_url}), 204)
 
 
 if __name__ == "__main__":

@@ -1,0 +1,36 @@
+<div class="container" style="margin-top: 70px;">
+    <div>
+        <h3 *ngIf="thisReview.user != currentUser" > This isn't your review</h3>
+        <div ng-controller="autoCtrl" *ngIf="thisReview.user == currentUser" >
+            <h3>Update Review</h3>
+            <form [formGroup]="reviewForm" (ngSubmit)="onSubmit()">
+                <div class="form-group">
+                    <label for="comment">
+                        Update your comment.
+                    </label>
+                    <textarea id="comment" rows="3" name="comment" class="form-control" formControlName="comment" [ngClass]="{'error': isInvalid('comment')}">
+                    
+                    </textarea>
+                </div>
+                <div class="form-group">
+                    <label for="rating">
+                        Update your rating
+                    </label>
+                    <select id="rating" name="rating"class="form-control" formControlName="rating" [ngClass]="{'error': isInvalid('comment')}">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                </div>
+                <button *ngIf="!isIncomplete()" type="submit" class="btn btn-primary">Submit</button>
+            </form>
+            <br>
+        </div>
+        <div *ngIf="thisReview.user == currentUser">
+            <h4>Delete Review</h4>
+            <button class="btn btn-danger text-white" (click)="deleteReview()" [routerLink]='profile'>Delete</button>
+        </div>
+    </div>
+</div>
