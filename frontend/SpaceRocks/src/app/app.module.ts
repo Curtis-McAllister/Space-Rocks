@@ -12,6 +12,8 @@ import { HomeComponent } from './home.component';
 import { LandingsComponent } from './landings.component';
 import { LandingComponent } from './landing.component';
 import { ProfileComponent } from './profile.component'
+import { AgmCoreModule } from '@agm/core';
+import { MapComponent } from './map.component';
 
 var routes = [
   {
@@ -29,6 +31,10 @@ var routes = [
   {
     path: 'profile',
     component: ProfileComponent
+  },
+  {
+    path: 'map',
+    component: MapComponent
   }
 ];
 
@@ -39,13 +45,17 @@ var routes = [
     HomeComponent,
     LandingsComponent,
     LandingComponent,
-    ProfileComponent
+    ProfileComponent,
+    MapComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     RouterModule.forRoot(routes),
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyBPBfrNCJE9y7dt55ZzEa051aTlJPQIhZY'
+    })
   ],
   providers: [WebService, AuthService],
   bootstrap: [AppComponent]

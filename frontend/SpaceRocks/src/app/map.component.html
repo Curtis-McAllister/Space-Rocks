@@ -1,0 +1,7 @@
+<div class="container" style="margin-top: 70px;">
+    <h3>Global Meteorite Landings</h3>
+    <agm-map [latitude]="50.470" [longitude]="-5.301" [zoom]="1">
+        <agm-marker *ngFor="let landing of webService.locations | async" [latitude]='landing.reclat' [longitude]='landing.reclong'>
+        </agm-marker>
+    </agm-map>
+</div>

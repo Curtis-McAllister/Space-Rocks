@@ -14,13 +14,18 @@
             </a>
         </li>
         <li>
-            <a class="nav-link" routerLink='profile'>
+            <a class="nav-link" routerLink='map'>
+                Map
+            </a>
+        </li>
+        <li>
+            <a class="nav-link" *ngIf="authService.loggedIn" routerLink='profile'>
                 Profile
             </a>
         </li>
     </ul>
     <div class="form-inline ml-auto">
-        <button class="btn btn-outline-light" *ngIf="!authService.loggedin" (click)="authService.login()">Log In</button>
-        <button class="btn btn-outline-light" *ngIf="!authService.loggedin" (click)="authService.logout()">Log Out</button>
+        <button class="btn btn-outline-light" *ngIf="!authService.loggedIn" (click)="authService.login()">Log In</button>
+        <button class="btn btn-outline-light" *ngIf="authService.loggedIn" (click)="authService.logout()">Log Out</button>
     </div>
 </div>

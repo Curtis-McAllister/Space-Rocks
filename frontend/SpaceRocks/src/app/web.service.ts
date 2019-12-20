@@ -21,6 +21,16 @@ export class WebService {
     private reviewsSubject = new Subject();
     reviews_list = this.reviewsSubject.asObservable();
 
+    private user_reviews_private;
+    private userReviewsSubject = new Subject();
+    user_reviews = this.userReviewsSubject.asObservable();
+
+    private locations_private;
+    private locationsSubject = new Subject();
+    locations = this.locationsSubject.asObservable();
+
+
+
     landingID;
 
     constructor(private http: HttpClient) {}
@@ -59,6 +69,24 @@ export class WebService {
             .subscribe(response => {
                 this.reviews_list_private = response;
                 this.reviewsSubject.next(this.reviews_list_private);
+            })
+    }
+
+    getLocations(){
+        return this.http.get(
+            'http://localhost:5000/api/1/landings/locations')
+            .subscribe(response => {
+                this.locations_private = response;
+                this.locationsSubject.next(this.locations_private);
+            })
+    }
+
+    getUserReviews(username){
+        return this.http.get(
+            'http://localhost:5000/api/1/landings/reviews/' + username)
+            .subscribe(response => {
+                this.user_reviews_private = response;
+                this.userReviewsSubject.next(this.user_reviews_private);
             })
     }
 
