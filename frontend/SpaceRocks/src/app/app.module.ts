@@ -62,7 +62,7 @@ var routes = [
     RouterModule.forRoot(routes),
     ReactiveFormsModule,
     AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyBPBfrNCJE9y7dt55ZzEa051aTlJPQIhZY'
+      apiKey: //API KEY 
     })
   ],
   providers: [WebService, AuthService],
